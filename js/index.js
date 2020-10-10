@@ -3,8 +3,8 @@
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext("2d");
 
-canvas.width = 10000;
-canvas.height = 10000;
+canvas.width = 600;
+canvas.height = 600;
 
 // create image data to control pixel values
 const mandelbrotSet = new ImageData(context, canvas.width, canvas.height);
