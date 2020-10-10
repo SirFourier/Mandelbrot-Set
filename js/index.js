@@ -72,24 +72,12 @@ function calculateMandelbrotSet() {
             mandelbrotSet.setRed(row, col, brightness);
             mandelbrotSet.setGreen(row, col, brightness);
             mandelbrotSet.setBlue(row, col, brightness);
-        }
-    }
-}
-
-function clearImage() {
-    for (let row = 0; row < canvas.height; row++) {
-        for (let col = 0; col < canvas.width; col++) {
-            mandelbrotSet.setRed(row, col, 0);
-            mandelbrotSet.setGreen(row, col, 0);
-            mandelbrotSet.setBlue(row, col, 0);
             mandelbrotSet.setAlpha(row, col, 255);
         }
     }
 }
 
 function main() {
-    clearImage();
-
     boundary = 2 * parseFloat(zoomSlider.value);
 
     horizontalOffset = parseFloat(horizontalSlider.value);
