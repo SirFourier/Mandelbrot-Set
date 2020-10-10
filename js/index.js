@@ -9,58 +9,99 @@ canvas.height = 600;
 // create image data to control pixel values
 const mandelbrotSet = new ImageData(context, canvas.width, canvas.height);
 
-// define boundaries
-const realBounds = { min: -2, max: 2 };
-realBounds.range = realBounds.max - realBounds.min;
+// slider to zoom
+const zoomSlider = document.getElementById("zoom");
+zoomSlider.oninput = main;
 
-const imaginaryBounds = { min: -2, max: 2 };
-imaginaryBounds.range = imaginaryBounds.max - imaginaryBounds.min;
+// slider to move in the horizontal plane
+const horizontalSlider = document.getElementById("horizontal");
+horizontalSlider.oninput = main;
+
+// slider to move in the vertical plane
+const verticalSlider = document.getElementById("vertical");
+verticalSlider.oninput = main;
+
+// define boundaries
+let boundary = null;
+let horizontalOffset = null;
+let verticalOffset = null;
+let realBounds = undefined;
+let imaginaryBounds = undefined;
 
 // get real and imaginary components from pixel coordinates
 getRealFromCol = (col) => (col / canvas.width) * realBounds.range + realBounds.min;
-getImaginaryFromRow = (row) => (row / canvas.width) * imaginaryBounds.range + imaginaryBounds.min;
+getImaginaryFromRow = (row) => (row / canvas.height) * imaginaryBounds.range + imaginaryBounds.min;
 
-const maxIterations = 50;
-const divergeThreshold = 20;
+function calculateMandelbrotSet() {
+    const maxIterations = 100;
+    const divergeThreshold = 2;
 
-// set each pixel to corrospond to Mandelbrot set
-for (let row = 0; row < canvas.height; row++) {
-    for (let col = 0; col < canvas.width; col++) {
+    // set each pixel to corrospond to Mandelbrot set
+    for (let row = 0; row < canvas.height; row++) {
+        for (let col = 0; col < canvas.width; col++) {
+            
+            // map position to complex number
+            const real = getRealFromCol(col);
+            const imaginary = getImaginaryFromRow(row);
+    
+            // (z+1) = z^2 + c (where c is the original complex number)
+    
+            // square a complex number
+            // (a+bi)**2
+            // a**2 + 2abi - b**2
+            // real = a**2 - b**2
+            // imaginary = 2ab
+    
+            let zReal = 0;
+            let zImaginary = 0;
+            let absValue = 0;
+            let iteration = 0;
+            for (iteration; iteration < maxIterations; iteration++){
+                // square complex number and add the original complex number
+                const tempZReal = zReal;
+                zReal = zReal**2 - zImaginary**2 + real;
+                zImaginary = 2 * tempZReal * zImaginary + imaginary;
 
-        const real = getRealFromCol(col);
-        const imaginary = getImaginaryFromRow(row);
-
-        // (z+1) = z^2 + c (where c is the original complex number)
-
-        // square a complex number
-        // (a+bi)**2
-        // a**2 + 2abi - b**2
-        // real = a**2 - b**2
-        // imaginary = 2ab
-
-        let zReal = 0;
-        let zImaginary = 0;
-        let diverge = false;
-        for (let iteration = 0; iteration < maxIterations; iteration++){
-            zReal = zReal**2 - zImaginary**2 + real;
-            zImaginary = 2 * zReal * zImaginary + imaginary;
-
-            const absValue = Math.abs(zReal - zImaginary);
-            if (absValue > divergeThreshold) {
-                diverge = true;
-                break;
+                absValue = Math.sqrt(zReal**2 + zImaginary**2);
+                if (absValue > divergeThreshold) {
+                    break;
+                }
             }
-        }
 
-        if (diverge == false) {
-            mandelbrotSet.setRed(row, col, 255);
-            mandelbrotSet.setGreen(row, col, 255);
-            mandelbrotSet.setBlue(row, col, 255);
+            mandelbrotSet.setRed(row, col, 255 - 255*iteration/maxIterations);
+            mandelbrotSet.setGreen(row, col, 255 - 255*iteration/maxIterations);
+            mandelbrotSet.setBlue(row, col, 255 - 255*iteration/maxIterations);
         }
-        mandelbrotSet.setAlpha(row, col, 255);
     }
 }
 
-mandelbrotSet.draw();
+function clearImage() {
+    for (let row = 0; row < canvas.height; row++) {
+        for (let col = 0; col < canvas.width; col++) {
+            mandelbrotSet.setRed(row, col, 0);
+            mandelbrotSet.setGreen(row, col, 0);
+            mandelbrotSet.setBlue(row, col, 0);
+            mandelbrotSet.setAlpha(row, col, 255);
+        }
+    }
+}
 
+function main() {
+    clearImage();
 
+    boundary = 2 * parseFloat(zoomSlider.value);
+
+    horizontalOffset = parseFloat(horizontalSlider.value);
+    verticalOffset = parseFloat(verticalSlider.value);
+
+    realBounds = { min: -boundary + horizontalOffset, max: boundary + horizontalOffset };
+    realBounds.range = realBounds.max - realBounds.min;
+
+    imaginaryBounds = { min: -boundary + verticalOffset , max: boundary + verticalOffset };
+    imaginaryBounds.range = imaginaryBounds.max - imaginaryBounds.min;
+
+    calculateMandelbrotSet();
+    mandelbrotSet.draw();
+}
+
+main();
