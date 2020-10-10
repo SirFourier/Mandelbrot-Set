@@ -34,7 +34,7 @@ getImaginaryFromRow = (row) => (row / canvas.height) * imaginaryBounds.range + i
 
 function calculateMandelbrotSet() {
     const maxIterations = 100;
-    const divergeThreshold = 2;
+    const divergeThreshold = 4;
 
     // set each pixel to corrospond to Mandelbrot set
     for (let row = 0; row < canvas.height; row++) {
@@ -62,15 +62,16 @@ function calculateMandelbrotSet() {
                 zReal = zReal**2 - zImaginary**2 + real;
                 zImaginary = 2 * tempZReal * zImaginary + imaginary;
 
-                absValue = Math.sqrt(zReal**2 + zImaginary**2);
+                absValue = zReal**2 + zImaginary**2;
                 if (absValue > divergeThreshold) {
                     break;
                 }
             }
 
-            mandelbrotSet.setRed(row, col, 255*iteration/maxIterations);
-            mandelbrotSet.setGreen(row, col, 255*iteration/maxIterations);
-            mandelbrotSet.setBlue(row, col, 255*iteration/maxIterations);
+            const brightness = 255*iteration/maxIterations
+            mandelbrotSet.setRed(row, col, brightness);
+            mandelbrotSet.setGreen(row, col, brightness);
+            mandelbrotSet.setBlue(row, col, brightness);
         }
     }
 }
