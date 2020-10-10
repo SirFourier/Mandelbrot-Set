@@ -3,8 +3,8 @@
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext("2d");
 
-canvas.width = 600;
-canvas.height = 600;
+canvas.width = 10000;
+canvas.height = 10000;
 
 // create image data to control pixel values
 const mandelbrotSet = new ImageData(context, canvas.width, canvas.height);
@@ -68,9 +68,9 @@ function calculateMandelbrotSet() {
                 }
             }
 
-            mandelbrotSet.setRed(row, col, 255 - 255*iteration/maxIterations);
-            mandelbrotSet.setGreen(row, col, 255 - 255*iteration/maxIterations);
-            mandelbrotSet.setBlue(row, col, 255 - 255*iteration/maxIterations);
+            mandelbrotSet.setRed(row, col, 255*iteration/maxIterations);
+            mandelbrotSet.setGreen(row, col, 255*iteration/maxIterations);
+            mandelbrotSet.setBlue(row, col, 255*iteration/maxIterations);
         }
     }
 }
