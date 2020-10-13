@@ -1,5 +1,6 @@
 # Mandelbrot-Set
 Inspired by https://csl.name/post/mandelbrot-rendering/
+![gifOfWebsite](screenshots/MandelbrotSetWebsite.gif?raw=true)
 ![gif](screenshots/Mandelbrot2.gif?raw=true)
 ![gif2](screenshots/Mandelbrot.gif?raw=true)
 ![Screenshot2](screenshots/screenshot2.png?raw=true)
