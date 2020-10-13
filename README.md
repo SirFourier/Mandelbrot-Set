@@ -5,7 +5,7 @@
 Learning outcomes:
 - mapping values onto a different scale
 - array methods such as filter and forEach
-- getting mouse positioning
+- getting mouse positions
 - addEventListener method
 - css positioning, checkbox toggle animation, and changing range slider look
 
