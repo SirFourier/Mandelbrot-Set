@@ -15,24 +15,12 @@ class ImageData {
 
     #getPixelIndex = (row, col) => (row * this.#width + col) * 4; 
 
-    setRed(row, col, value) {
-        const index = this.#getPixelIndex(row, col);
-        this.#imageData.data[index] = value;
-    }
-
-    setGreen(row, col, value) {
-        const index = this.#getPixelIndex(row, col);
-        this.#imageData.data[index + 1] = value;
-    }
-
-    setBlue(row, col, value) {
-        const index = this.#getPixelIndex(row, col);
-        this.#imageData.data[index + 2] = value;
-    }
-
-    setAlpha(row, col, value) {
-        const index = this.#getPixelIndex(row, col);
-        this.#imageData.data[index + 3] = value;
+    setRGBA(row, col, red, green, blue, alpha) {
+        let index = this.#getPixelIndex(row, col);
+        this.#imageData.data[index] = red;
+        this.#imageData.data[++index] = green;
+        this.#imageData.data[++index] = blue;
+        this.#imageData.data[++index] = alpha;
     }
 
     // draw from top left corner

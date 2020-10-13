@@ -3,15 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mandelbrot Set</title>
+    <link rel="stylesheet" href="css/style.css"/>
     <script src="js/ImageData.js"></script>
 </head>
 <body>
-    <input type="range" min="0.00001" max="1" value="1" step="0.00001" class="slider" id="zoom"/>
-    <input type="range" min="-5" max="5" value="0" step="0.00001" class="slider" id="horizontal"/>
-    <input type="range" min="-5" max="5" value="0" step="0.00001" class="slider" id="vertical"/>
-    <canvas id="myCanvas">
-        <script src="js/index.js"></script>
-    </canvas>
+    <h1> Mandelbrot Set </h1>
+    <div class="Description">
+        <p>The Mandelbrot set is created by applying complex numbers to the function     
+           <b>z<sub>n+1</sub> = z<sub>n</sub><sup>2</sup> + c </b> in an iterative 
+           process. <b>c</b> is an arbitrary complex number and
+           <b>z<sub>0</sub></b> = <b>0 + 0i</b>.  
+           If the process converges, then <b>c</b> is contained in the Mandelbrot set.
+        </p>
+    </div>
+    <div>
+        <input type="checkbox" id="showLines">
+        <label for="showLines">Show iterating lines</label>
+        <div>
+            <input type="range" class="slider" id="iterations"/>
+            <label for="iterations">Max iterations: <span id="iterationsValue"></span></label>
+    
+            <input type="range" class="slider" id="scale"/>
+            <label for="scale">Scale</label>
+        </div>
+    </div>
+    <div>
+        <canvas id="myCanvas"></canvas>
+        <input type="range" class="slider" id="vertical"/>
+    </div>
+    <div> 
+        <input type="range" class="slider" id="horizontal"/>
+    </div>
+    <script src="js/index.js"></script>
 </body>
 </html>
